@@ -7,8 +7,7 @@
 
 
 import Foundation
-import os								// necessary for fflush(__stdoutp)
-import QuartzCore				// necessary for CACurrentMediaTime()
+import os				// necessary for fflush(__stdoutp)
 
 // peaBook is declared outside of class — normally it wolud be in the GUI
 // gameChain is used to compare the course of the game against the book.
@@ -4236,7 +4235,6 @@ class peaBrain {
 	func infoToGUI(moveIndex: Int, dispMove: String, depth: Int, moveScore: Int, nodes: Int)
 	{
 		// Search time in Milliseconds
-		//let endTime = CACurrentMediaTime()
 		let endTime = CFAbsoluteTimeGetCurrent()
 		//let searchMs = Int(((endTime - startTime) * 1000.0).rounded())
 		
