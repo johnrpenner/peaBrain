@@ -4,12 +4,17 @@
 // 
 //  Created by John Roland Penner on 06-21-2024
 //  Copyright © 2024 John Roland Penner. All rights reserved. 
-
+// 
+// Compile with: swiftc -o pea8 peaBrain8.swift -Ounchecked -suppress-warnings 
+// 
+// NOTE: you NEEED to use -Ounchecked or 1/100th the SPEEED!! 
+// PERFT on M1 with -Ounchecked = depth 5 nodes 4865609✅ time 3.31 nps 1468141.10
+// PERFT on M1 without -Ounchecked depth 5 nodes 4865609✅ time 917.09 nps 5305.47
 
 import Foundation
-import os				// necessary for fflush(__stdoutp)
+import os								// necessary for fflush(__stdoutp)
 
-// peaBook is declared outside of class — normally it wolud be in the GUI
+// peaBook is declared outside of class — normally it would be in the GUI
 // gameChain is used to compare the course of the game against the book.
 var gBook : String = "----"		// holds the contents of peaBook.txt
 var gameChain : String = ""
@@ -986,7 +991,7 @@ class peaBrain {
 		makeMove ( theBoard: &checkBoard, theMove: testMove )
 		
 		// PROMOTION (suffix pawn-queen promotion)
-		if (gPromotion) {buildStr += "=Q"}
+		if (gPromotion) {buildStr += "=q"}
 		gPromotion = gPromoTemp
 		
 		// CHECK (suffix check/mate/stale)
