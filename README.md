@@ -22,10 +22,13 @@ which allowed sound and graphic visualization of the moves in real-time
 as they were being processed by negamax as part of an iMac art installation. 
 
 Usage: compile this puppy with: 
-
-swiftc -o pea8 peaBrain8.swift -suppress-warnings
+swiftc -o pea8 peaBrain8.swift -Ounchecked -suppress-warnings 
 
 and see if you can beat the peabrain! 🤩 
+
+NOTE: you NEEED to use -Ounchecked or 1/100th the SPEEED!! 
+PERFT on M1 with -Ounchecked = depth 5 nodes 4865609✅ time 3.31 nps 1468141.10
+PERFT on M1 without -Ounchecked depth 5 nodes 4865609✅ time 917.09 nps 5305.47
 
 john roland penner
 toronto island 🇨🇦 
