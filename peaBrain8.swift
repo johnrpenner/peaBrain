@@ -1,6 +1,6 @@
 // peaBrain 8 UCI 🫛 ©2024 by John Roland Penner
 // Based on peaBrain.swift 5.0.3 (2017) and pChess.bas 2.0 (2012)
-// Updated: July 15, 2024
+// Updated: July 22, 2024
 // 
 //  Created by John Roland Penner on 06-21-2024
 //  Copyright © 2024 John Roland Penner. All rights reserved. 
@@ -541,9 +541,8 @@ class peaBrain {
 	
 	// Setup Asynchronous Timer JRP Async
 	private func startTimer() {
-		let gTimer = 7.0
 		DispatchQueue.global(qos: .default).async(execute: {() -> Void in
-			let nixieTimer = Timer.scheduledTimer(timeInterval: gTimer, 
+			var nixieTimer = Timer.scheduledTimer(timeInterval: self.gTimer, 
 				target: self, selector: #selector(self.terminateTimer), userInfo: nil, repeats: false)
 				RunLoop.current.add(nixieTimer, forMode: RunLoop.Mode.default)
 				RunLoop.current.run()
