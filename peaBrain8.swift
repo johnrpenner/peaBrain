@@ -539,17 +539,38 @@ class peaBrain {
 	}
 	
 	
-	// Setup Asynchronous Timer
+	// Setup Asynchronous Timer JRP Async
+	private func startTimer() {
+		let gTimer = 7.0
+		DispatchQueue.global(qos: .default).async(execute: {() -> Void in
+			let nixieTimer = Timer.scheduledTimer(timeInterval: gTimer, 
+				target: self, selector: #selector(self.terminateTimer), userInfo: nil, repeats: false)
+				RunLoop.current.add(nixieTimer, forMode: RunLoop.Mode.default)
+				RunLoop.current.run()
+				})
+		
+		return
+	}
+	
+	@objc func terminateTimer() {
+		self.shouldTerminate = true
+		print("** timerTerminated **")
+		return
+	}
+		
+	
+	/*
+	// Setup Asynchronous Timer without @objC (doesnt work)
 	private func startTimer() {
 		let timer = DispatchSource.makeTimerSource(queue: queue)
-		timer.schedule(deadline: .now() + self.gTimer)
+		timer.schedule(deadline: .now() + 5.0)
 		timer.setEventHandler { [weak self] in 
 			self?.shouldTerminate = true
-			//JRP: we should invalidate() wherever we set Terminate = true
-			//print("** timer terminated **")
+			print("** timerTerminated **")
 			}
 		timer.activate()
 	}
+	*/
 	
 	
 	//--| Book Methods |---------------------------------------------
