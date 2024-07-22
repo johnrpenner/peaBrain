@@ -541,19 +541,14 @@ class peaBrain {
 	
 	// Setup Asynchronous Timer
 	private func startTimer() {
-		DispatchQueue.global(qos: .default).async(execute: {() -> Void in
-			var nixieTimer = Timer.scheduledTimer(timeInterval: self.gTimer, 
-				target: self, selector: #selector(self.terminateTimer), userInfo: nil, repeats: false)
-				RunLoop.current.add(nixieTimer, forMode: RunLoop.Mode.default)
-				RunLoop.current.run()
-				})
-		
-		return
-	}
-	
-	@objc func terminateTimer() {
-		self.shouldTerminate = true
-		return
+		let timer = DispatchSource.makeTimerSource(queue: queue)
+		timer.schedule(deadline: .now() + self.gTimer)
+		timer.setEventHandler { [weak self] in 
+			self?.shouldTerminate = true
+			//JRP: we should invalidate() wherever we set Terminate = true
+			//print("** timer terminated **")
+			}
+		timer.activate()
 	}
 	
 	
