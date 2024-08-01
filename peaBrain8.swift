@@ -1,7 +1,7 @@
-// peaBrain 8 UCI 🫛 ©2024 by John Roland Penner
+// peaBrain 8 UCI v8.0.1 🫛 ©2024 by John Roland Penner
 // Based on peaBrain.swift 5.0.3 (2017) and pChess.bas 2.0 (2012)
-// Updated: July 22, 2024
-// 
+// Updated: July 24, 2025
+//  
 //  Created by John Roland Penner on 06-21-2024
 //  Copyright © 2024 John Roland Penner. All rights reserved. 
 // 
@@ -82,13 +82,13 @@ class peaBrain {
 	
 	let peaVersion : String = "peaBrain8 ©2024 by johnRolandPenner"
 	
-	let gTimerDefault = 7.0
-	var gTimer = 7.0
+	let gTimerDefault = 17.0						// 17.0 seconds
 	let numMovesAssumedForTimeControl = 32	// average game = 40moves
-	let infiniteTime : Double = 86400000.0  // msec = 24hours
+	let infiniteTime : Double = 86400000.0	// msec = 24hours
 	
-	var gDepth : Int = 9
-	let gEndDepth : Int = 12
+	var gTimer = 17.0
+	var gDepth : Int = 12
+	let gEndDepth : Int = 17
 	let maxMoves : Int = 255
 	let maxGameMoves : Int = 250
 	let maxWords : Int = 255
@@ -285,9 +285,9 @@ class peaBrain {
 	var gPromotion : Bool = false
 	
 	// counters during search
-	var gMovesMade : Int = 0
+	//var gMovesMade : Int = 0
 	var gqNodes : Int = 0
-	//var gNodesSearched : Int = 0
+	var gNodesSearched : Int = 0
 	
 	//var gameFEN : String = ""
 	//var gFischer : Bool = false
@@ -447,7 +447,7 @@ class peaBrain {
 		// parse subCommands
 		var movesToGo = numMovesAssumedForTimeControl
 		var UCIdepth = gDepth
-		var timeLimit = gTimerDefault   //7.0 secs
+		var timeLimit = gTimerDefault   // 17.0 seconds
 		var wtime : Double = gTimerDefault
 		var btime : Double = gTimerDefault
 		
@@ -539,7 +539,22 @@ class peaBrain {
 	}
 	
 	
-	// Setup Asynchronous Timer JRP Async
+	/*
+	// Setup Asynchronous Timer without @objC > NOT WORKING!!
+	private func startTimer() {
+		let timer = DispatchSource.makeTimerSource(queue: queue)
+		timer.schedule(deadline: .now() + self.gTimer)
+		timer.setEventHandler { [weak self] in 
+			self?.shouldTerminate = true
+			//JRP: we should invalidate() wherever we set Terminate = true
+			//print("** timer terminated **")
+			}
+		timer.activate()
+	}
+	*/
+	
+	
+	// Setup Asynchronous Timer JRP
 	private func startTimer() {
 		DispatchQueue.global(qos: .default).async(execute: {() -> Void in
 			var nixieTimer = Timer.scheduledTimer(timeInterval: self.gTimer, 
@@ -553,23 +568,9 @@ class peaBrain {
 	
 	@objc func terminateTimer() {
 		self.shouldTerminate = true
-		print("** timerTerminated **")
+		//JRP > find: we need to nixieTimer.invalidate()
 		return
 	}
-		
-	
-	/*
-	// Setup Asynchronous Timer without @objC (doesnt work)
-	private func startTimer() {
-		let timer = DispatchSource.makeTimerSource(queue: queue)
-		timer.schedule(deadline: .now() + 5.0)
-		timer.setEventHandler { [weak self] in 
-			self?.shouldTerminate = true
-			print("** timerTerminated **")
-			}
-		timer.activate()
-	}
-	*/
 	
 	
 	//--| Book Methods |---------------------------------------------
@@ -2621,7 +2622,7 @@ class peaBrain {
 					theBoard.who2move = -theBoard.who2move
 					theBoard.halfmoves += 1
 					//theBoard.hashCode = not(theBoard.hashCode)
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 
@@ -2637,7 +2638,7 @@ class peaBrain {
 					theBoard.who2move = -theBoard.who2move
 					theBoard.halfmoves += 1
 					//theBoard.hashCode = not(theBoard.hashCode)
-					gMovesMade += 1
+					//gMovesMade += 1
 					return;
 					}
 				}
@@ -2656,7 +2657,7 @@ class peaBrain {
 					theBoard.wHasCastled = true
 					theBoard.who2move = -theBoard.who2move
 					theBoard.halfmoves += 1
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 				
@@ -2671,7 +2672,7 @@ class peaBrain {
 					theBoard.wHasCastled = true
 					theBoard.who2move = -theBoard.who2move
 					theBoard.halfmoves += 1
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 				
@@ -2695,7 +2696,7 @@ class peaBrain {
 					theBoard.who2move = -theBoard.who2move
 					theBoard.halfmoves += 1
 					//theBoard.hashCode = not(theBoard.hashCode)
-					gMovesMade += 1
+					//gMovesMade += 1
 					return;
 					}
 				
@@ -2712,7 +2713,7 @@ class peaBrain {
 					theBoard.who2move = -theBoard.who2move
 					theBoard.halfmoves += 1
 					//theBoard.hashCode = not(theBoard.hashCode)
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 				}
@@ -2731,7 +2732,7 @@ class peaBrain {
 					theBoard.bHasCastled = true
 					theBoard.who2move = -theBoard.who2move
 					theBoard.halfmoves += 1
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 				
@@ -2747,7 +2748,7 @@ class peaBrain {
 						theBoard.bHasCastled = true
 						theBoard.who2move = -theBoard.who2move
 						theBoard.halfmoves += 1
-						gMovesMade += 1
+						//gMovesMade += 1
 						return
 						}
 				//	}
@@ -2771,7 +2772,7 @@ class peaBrain {
 					theBoard.enPassantSq = noSuchSquare
 					theBoard.halfmoves += 1
 					//theBoard.hashCode = not(theBoard.hashCode)
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 				}
@@ -2787,7 +2788,7 @@ class peaBrain {
 					theBoard.enPassantSq = noSuchSquare
 					theBoard.halfmoves += 1
 					//theBoard.hashCode = not(theBoard.hashCode)
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 				}		
@@ -2806,7 +2807,7 @@ class peaBrain {
 					theBoard.enPassantSq = noSuchSquare
 					theBoard.halfmoves += 1
 					//theBoard.hashCode = not(theBoard.hashCode)
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 				}
@@ -2822,7 +2823,7 @@ class peaBrain {
 					theBoard.enPassantSq = noSuchSquare
 					theBoard.halfmoves += 1
 					//theBoard.hashCode = not(theBoard.hashCode)
-					gMovesMade += 1
+					//gMovesMade += 1
 					return
 					}
 				}		
@@ -2835,7 +2836,7 @@ class peaBrain {
 		theBoard.who2move = -theBoard.who2move
 		theBoard.halfmoves += 1
 		//theBoard.hashCode = not(theBoard.hashCode)
-		gMovesMade += 1		//because we're keeping count
+		//gMovesMade += 1		//because we're keeping count
 		
 		// if either King or Rook has moved, we can no longer castle
 		if pieceType == 6 {theBoard.wHasCastled = false; theBoard.wCastleKside = false; theBoard.wCastleQside = false}
@@ -3224,14 +3225,14 @@ class peaBrain {
 			
 			if (isLegalPosition(theBoard:&testBoard)) {
 				numLegal += 1
-				//gNodesSearched +=1
+				gNodesSearched += 1
 				
 				moveScore = -negaSearch(theBoard: &testBoard, alpha:-betaScore, beta:-alphaScore, depth:depth-1, ply:ply+1)
 				
 				// purves infoToGUI() debugrrr goes HERE
-				if (depth > 4) {
+				if (depth > 5) {
 					let dispMove = move2Algebraic( theMove: &theMove )
-					infoToGUI(moveIndex: moveIndex, dispMove: dispMove, depth: depth, moveScore: moveScore, nodes: gMovesMade)
+					infoToGUI(moveIndex: moveIndex, dispMove: dispMove, depth: depth, moveScore: moveScore, nodes: gNodesSearched)
 					} 
 				
 				//if moveScore > alphaScore {alphaScore = moveScore; theMove.score = moveScore}
@@ -3272,7 +3273,7 @@ class peaBrain {
 		
 		var dispMoveScore : Int = 0
 		
-		gMovesMade = 0; gqNodes = 0		//gNodesSearched = 0
+		gNodesSearched = 0; gqNodes = 0   //gMovesMade = 0
 		alphaScore = -infinity
 		
 		// blank dummy move
@@ -3327,7 +3328,7 @@ class peaBrain {
 				// send info to GUI [TRUE]
 				dispMoveScore = moveScore
 				let dispMove = move2Algebraic( theMove: &theMove )
-				infoToGUI(moveIndex: moveIndex, dispMove: dispMove, depth: iDepth, moveScore: moveScore, nodes: gMovesMade)
+				infoToGUI(moveIndex: moveIndex, dispMove: dispMove, depth: iDepth, moveScore: moveScore, nodes: gNodesSearched)
 				
 				//if (isSearchAborted) {break}
 				if shouldTerminate == true { break }
@@ -3345,7 +3346,7 @@ class peaBrain {
 			
 			// send info to GUI [TRUE]
 			let dispMove = move2Algebraic( theMove: &theMove )
-			infoToGUI(moveIndex: iDepth, dispMove: dispMove, depth: maxDepth, moveScore: dispMoveScore, nodes: gMovesMade)
+			infoToGUI(moveIndex: iDepth, dispMove: dispMove, depth: maxDepth, moveScore: dispMoveScore, nodes: gNodesSearched)
 			
 			//if (isSearchAborted) {break}
 			if shouldTerminate == true { break }
@@ -3358,7 +3359,7 @@ class peaBrain {
 		
 		// display info
 		//let moveStr : String = move2Str(theMove:theMove)
-		//-print("peaBrain • nodes:\(gMovesMade) qui:\(gqNodes) score:\(alphaScore) computerMove:\(moveStr)")
+		//-print("peaBrain • nodes:\(gNodesSearched) qui:\(gqNodes) score:\(alphaScore) computerMove:\(moveStr)")
 		
 		return theMove
 	}
@@ -3385,7 +3386,7 @@ class peaBrain {
 		
 		// first see if we are in check (used for kingmove generation)
 		gInCheck = isSideToMoveInCheck(theBoard: &theBoard)
-		gMovesMade = 0; gqNodes = 0		//gNodesSearched = 0
+		gNodesSearched = 0; gqNodes = 0   //gMovesMade = 0
 		
 		// generate ROOT MOVES
 		moves = generateLegalMoves( theBoard: &theBoard )
@@ -3401,7 +3402,7 @@ class peaBrain {
 				makeMove( theBoard: &testBoard, theMove: theMove)
 				
 				moveScore = -negaSearch(theBoard: &testBoard, alpha:-betaScore, beta:-alphaScore, depth: depth, ply:1)
-				print("rootIndex:\(moveIndex) depth:\(depth) score:\(moveScore) nodes:\(gMovesMade) QUI:\(gqNodes)")
+				print("rootIndex:\(moveIndex) depth:\(depth) score:\(moveScore) nodes:\(gNodesSearched) QUI:\(gqNodes)")
 				
 				if moveScore > alphaScore {
 					alphaScore = moveScore
@@ -3420,16 +3421,20 @@ class peaBrain {
 		
 		// display info
 		let moveStr : String = move2Str(theMove:theMove)
-		print("peaBrain • nodes:\(gMovesMade) qui:\(gqNodes) score:\(alphaScore) computerMove:\(moveStr)")
+		print("peaBrain • nodes:\(gNodesSearched) qui:\(gqNodes) score:\(alphaScore) computerMove:\(moveStr)")
 		
 		return theMove
 	}
 
 	
 	
-	func endGame()
+	func endGame() -> Bool
 	{
-		return
+		// in root search in computerSearch(), we should call to see if endgame
+		// if endGamme() == true {gDepth += 4}
+		
+		//if numPiecesOnBoard <= 16 return true
+		return false
 	}
 
 //-----
