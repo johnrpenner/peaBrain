@@ -1,6 +1,6 @@
 // peaBrain 8 UCI v8.0.1 🫛 ©2024 by John Roland Penner
 // Based on peaBrain.swift 5.0.3 (2017) and pChess.bas 2.0 (2012)
-// Updated: July 24, 2025
+// Updated: Aug 2, 2024
 //  
 //  Created by John Roland Penner on 06-21-2024
 //  Copyright © 2024 John Roland Penner. All rights reserved. 
@@ -16,6 +16,7 @@ import os								// necessary for fflush(__stdoutp)
 
 // peaBook is declared outside of class — normally it would be in the GUI
 // gameChain is used to compare the course of the game against the book.
+// yaya. i know. this should be rewritten as a STRUCT{} w NULLs at some point 🙄 
 var gBook : String = "----"		// holds the contents of peaBook.txt
 var gameChain : String = ""
 var numBookMoves : Int = 0
@@ -92,7 +93,7 @@ class peaBrain {
 	let maxMoves : Int = 255
 	let maxGameMoves : Int = 250
 	let maxWords : Int = 255
-	let noSuchSquare : Int = 99
+	let noSuchSquare : Int = 99		// wtf is this abombination why not NULL!? 🤷🏼‍♂️ 
 	let whitee : Int = 1
 	let blackk : Int = -1
 	
@@ -106,17 +107,15 @@ class peaBrain {
 	
 	// BOOK Variables
 	
+	// eee gameChain is used to compare the course of the game against the book
+	//var gameChain : String = ""
+	//var numBookMoves : Int = 0
+	
 	// internal representation of game history for undo/redo
 	var gMoveCount : Int = 0
 	var gDispCount : Int = 0
 	var theGame : [boardRecord] = []
 	var theMoves : [moveRecord] = []
-	
-	// gameChain is used to compare the course of the game against the book.
-	var gameChain : String = ""
-	var numBookMoves : Int = 0
-	var bookTitle : [String] = [""]
-	var bookChain : [String] = [""]
 	
 	var FENgame : Bool = false
 	var FENgameSTR : String = ""
