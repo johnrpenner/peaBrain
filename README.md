@@ -1,12 +1,12 @@
 peaBrain 8 ©2024 by John Roland Penner
-peaBrain is a UCI Chess Engine written in Swift for macOS
-released: July 15, 2024
+peaBrain 8 is a Human Created UCI Chess Engine written in Swift for macOS
+released: July 15, 2024 • toronto island
 
 peaBrain 8 is the UCI version of the engine used in my commercial Chess Meister 
 product for the iPhone. it provides a simple pedagogical chess engine written in 
 Swift which should be easily comprehensible to anyone interested in getting 
 started with chess programming. It can be played in any UCI compatible 
-Chess GUI application like HIARCS. 
+Chess GUI application like HIARCSor peaBoard for macOS. 
 
 peaBrain uses a classic Shannon type MiniMax search with Quiescence extensions 
 and Alpha-Beta pruning, SAN Notation, and is written to support Fischer games 
@@ -14,12 +14,20 @@ and Alpha-Beta pruning, SAN Notation, and is written to support Fischer games
 (Encyclopedia of Chess Openings). Runs at about 1400 ELO. Comes complete 
 with Swift source code. 
 
-The entire codebase is a functional port of an earlier chess engine 
-i had written in 2010 in futureBasic called pChess 2.0 — which is still 
-more advanced in its use of hash tables for greater speed, and support 
-for fischer random chess. pChess 2.0 came with a graphical interface 
-which allowed sound and graphic visualization of the moves in real-time 
-as they were being processed by negamax as part of an iMac art installation. 
+peaBrain is the Slowest Engine out there — but at least i wrote the moveGenerator
+on my own without stealing someone else's Bitboard like half the Stockfish clones, 
+and absolutely without the use of A.I. (peaBrain 8 is in fact it is the last version of 
+peaBrain to be written WITHOUT AI — the next version peaBrain 9 will be the first to do so). 
+
+The entire codebase is a functional port of an earlier chess engine i had written in 2010 
+in futureBasic called pChess 2.0 — which is still more advanced in its use of hash tables 
+for greater speed, and support for fischer random chess. pChess 2.0 came with a 
+graphical interface which allowed sound and graphic visualization of the moves in 
+real-time as they were being processed by negamax as part of an iMac art installation. 
+
+a separate project — an extension of Chess Meister for the iPad — will be a new UCI GUI 
+app called, correspondingly — peaBoard UCI for macOS, and peaBrain 9 (the next project) 
+will be its defalut engine. 
 
 Usage: compile this puppy with: 
 swiftc -o pea8 peaBrain8.swift -Ounchecked -suppress-warnings 
