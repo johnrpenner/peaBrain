@@ -27,7 +27,7 @@ real-time as they were being processed by negamax as part of an iMac art install
 
 a separate project — an extension of Chess Meister for the iPad — will be a new UCI GUI 
 app called, correspondingly — peaBoard UCI for macOS, and peaBrain 9 (the next project) 
-will be its defalut engine. 
+will be its default engine. 
 
 Usage: compile this puppy with: 
 swiftc -o pea8 peaBrain8.swift -Ounchecked -suppress-warnings 
